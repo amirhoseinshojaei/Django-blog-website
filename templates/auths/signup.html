@@ -1,4 +1,11 @@
+{% extends 'base.html' %}
+
 {% load static %}
+
+
+{% block title %}Signup{% endblock title %}
+
+{% block body %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,7 +54,7 @@
 
             const formData = new FormData(this);
 
-            fetch("{% url 'signup' %}", {
+            fetch("{% url 'auth:signup' %}", {
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
@@ -70,3 +77,9 @@
     </script>
 </body>
 </html>
+
+
+{% endblock body %}
+
+    
+
