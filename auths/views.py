@@ -68,6 +68,4 @@ def signup(request):
     
     else:
 
-        return JsonResponse({
-            'error': 'Invalid request method'
-        },status = 400)
+        return render(request,'auths/signup.html')
