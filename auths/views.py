@@ -112,3 +112,14 @@ def login(request):
             },status = 400)
         
     return render(request,'auths/login.html')
+
+
+
+
+def logout(request):
+
+    logout(request)
+    return JsonResponse({
+        'success': 'success logout'
+    },status = 200)
+
