@@ -69,3 +69,46 @@ def signup(request):
     else:
 
         return render(request,'auths/signup.html')
+
+
+
+@csrf_exempt
+def login(request):
+
+    if request.user.is_authenticated:
+
+        return JsonResponse({
+            'error': 'You are already LoggedIn'
+        },status = 400)
+
+    if request.method == 'POST':
+
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        try:
+
+            CustomUser.objects.get(email=email)
+            user = authenticate(request,email=email,password=password)
+
+            if user is not None:
+
+                login(request,user)
+
+                return JsonResponse({
+                    'success':'You are LoggedIn'
+                },status = 200)
+            
+            else:
+
+                return JsonResponse({
+                    'error': 'User Does Not Exist First Create an Account'
+                },status = 400)
+            
+        except:
+
+            return JsonResponse({
+                'error': 'User with this Email Does not Exist'
+            },status = 400)
+        
+    return render(request,'auths/login.html')
