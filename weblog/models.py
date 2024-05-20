@@ -49,6 +49,6 @@ class Blog(models.Model):
     image = models.ImageField(upload_to='blogs/%Y%m%d',null=True)
     published_at = models.DateTimeField(auto_now_add=True,auto_now=False)
     updated_at = models.DateTimeField(auto_now=True,auto_now_add=False)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete= models.SET_NULL)
-    category = models.ForeignKey(Category,related_name='blog')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete= models.CASCADE)
+    category = models.ForeignKey(Category,related_name='blog',on_delete= models.CASCADE)
     tag = models.ManyToManyField(Tag,related_name='blogs')
