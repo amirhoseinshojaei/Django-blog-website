@@ -115,7 +115,7 @@ def login(request):
 
 
 
-
+@csrf_exempt
 def logout(request):
 
     logout(request)
