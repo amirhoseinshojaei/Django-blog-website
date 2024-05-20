@@ -52,3 +52,13 @@ class Blog(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete= models.CASCADE)
     category = models.ForeignKey(Category,related_name='blog',on_delete= models.CASCADE)
     tag = models.ManyToManyField(Tag,related_name='blogs')
+
+
+    class Meta:
+
+        verbose_name_plural = 'Tags'
+        ordering = ('published_at',)
+
+    def __str__(self):
+
+        return self.title
