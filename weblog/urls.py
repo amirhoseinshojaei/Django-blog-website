@@ -8,4 +8,5 @@ urlpatterns=[
     path('',views.index,name='home'),
     path('blogs/',views.blogs_list,name='blogs'),
     path('<slug:category_slug>/',views.blogs_list,name='blogs_by_category'),
+    path('blog/<slug:slug>',views.blog_detail,name='blog_detail'),
 ]
