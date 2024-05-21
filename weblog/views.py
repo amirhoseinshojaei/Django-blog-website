@@ -47,4 +47,4 @@ def blog_detail(request,slug):
         'tags':tags
     }
 
-    return render (request,'blog/detail',context)
+    return render (request,'blog/detail.html',context)
