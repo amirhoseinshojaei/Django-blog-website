@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{blog.title}}{% endblock title %}
+
+{% block body %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-3">
+                <h2>Categories</h2>
+                <ul class="list-group">
+                    {% for cat in categories %}
+                        <li class="list-group-item {% if cat.slug == category_slug %}active{% endif %}">
+                            <a href="{% url 'blog:blog_list_by_category' category.slug %}">
+                                {{ cat.name }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-9">
+                <h2>Blogs{% if category %} in {{ category.name }}{% endif %}</h2>
+                <div class="row">
+                    {% for post in blog %}
+                        <div class="col-md-4">
+                            <div class="card mb-4">
+                                <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ post.title }}</h5>
+                                    <p class="card-text">{{ post.description }}</p>
+                                    <a href="{{post.absolute_url}}" class="btn btn-primary">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p>No blog posts available.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+{% endblock body %}
+
+    
+
+
