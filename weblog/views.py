@@ -34,7 +34,7 @@ def blogs_list(request,category_slug= None):
 
 
 
-
+@require_http_methods(['GET'])
 def blog_detail(request,slug):
 
     blog = get_object_or_404(Blog,slug=slug)
