@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.urls import reverse
 # Create your models here.
 
 
@@ -17,6 +18,11 @@ class Category(models.Model):
         ordering = ('published_at',)
 
 
+    def get_absolute_url(self):
+
+        return reverse('blog:blog_by_category',args=[self.slug])
+
+
     def __str__(self):
 
         return self.name
@@ -29,6 +35,10 @@ class Tag(models.Model):
     slug = models.SlugField()
     published_at = models.DateTimeField(auto_now_add=True,auto_now=False)
     updated_at = models.DateTimeField(auto_now_add=False,auto_now=True)
+
+    def get_absolute_url(self):
+
+        return reverse('blog:blog_by_tags',args=[self.slug])
 
     class Meta:
 
@@ -53,6 +63,11 @@ class Blog(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete= models.CASCADE)
     category = models.ForeignKey(Category,related_name='blog',on_delete= models.CASCADE)
     tag = models.ManyToManyField(Tag,related_name='blogs')
+
+
+    def get_absolute_url(self):
+
+        return reverse('blog:blog_detail',args=[self.slug])
 
 
     class Meta:
