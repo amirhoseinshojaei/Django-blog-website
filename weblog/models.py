@@ -72,7 +72,7 @@ class Blog(models.Model):
 
     class Meta:
 
-        verbose_name_plural = 'Tags'
+        verbose_name_plural = 'Blogs'
         ordering = ('published_at',)
 
     def __str__(self):
@@ -92,4 +92,4 @@ class Comment(models.Model):
 
     def __str__(self):
 
-        return self.blog        
+        return self.user.email        

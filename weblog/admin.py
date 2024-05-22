@@ -6,6 +6,7 @@ class CommentTabularInline(admin.TabularInline):
 
     model = Comment
 
+
 @admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
     
@@ -43,7 +44,7 @@ class BlogAdmin(admin.ModelAdmin):
     def user_email(self,obj):
 
         return obj.user.email
-    
+
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
