@@ -21,7 +21,7 @@
                 <ul class="list-group">
                     {% for cat in categories %}
                         <li class="list-group-item {% if cat.slug == category_slug %}active{% endif %}">
-                            <a href="{% url 'blog:blog_list_by_category' category.slug %}">
+                            <a href="{{cat.get_absolute_url}}">
                                 {{ cat.name }}
                             </a>
                         </li>
@@ -37,8 +37,8 @@
                                 <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ post.title }}</h5>
-                                    <p class="card-text">{{ post.description }}</p>
-                                    <a href="{{post.absolute_url}}" class="btn btn-primary">Read More</a>
+                                    {% comment %} <p class="card-text">{{ post.description }}</p> {% endcomment %}
+                                    <a href="{{post.get_absolute_url}}" class="btn btn-primary">Read More</a>
                                 </div>
                             </div>
                         </div>
