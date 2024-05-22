@@ -38,13 +38,15 @@ def blogs_list(request,category_slug= None):
 def blog_detail(request,slug):
 
     blog = get_object_or_404(Blog,slug=slug)
-    category = Category.objects.filter(category=blog)
-    tags = Tag.objects.filter(tags=blog)
+    comments = blog.comments.all()
+    category = blog.category
+    tags = blog.tag
 
     context = {
         'blog':blog,
+        'comments':comments,
         'category':category,
         'tags':tags
     }
 
-    return render (request,'blog/detail.html',context)
+    return render(request,'blog/detail.html',context)
