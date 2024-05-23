@@ -34,13 +34,13 @@ def blogs_list(request,category_slug= None):
 
 
 
-@require_http_methods(['GET'])
+@require_http_methods(['GET','POST'])
 def blog_detail(request,slug):
 
     blog = get_object_or_404(Blog,slug=slug)
     comments = blog.comments.all()
-    category = blog.category
-    tags = blog.tag
+    category = Category.objects.filter(category = blog)
+    tags = Tag.objects.filter(tags = blog)
 
     context = {
         'blog':blog,
@@ -48,5 +48,8 @@ def blog_detail(request,slug):
         'category':category,
         'tags':tags
     }
+
+    if request.method == "POST":
+        pass   #TODo; build format json
 
     return render(request,'blog/detail.html',context)
