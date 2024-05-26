@@ -11,6 +11,27 @@ def index(request):
 
     return render(request,'blog/home.html',context)
 
+@require_http_methods(['GET'])
+def blogs_list(request,category_slug= None):
+
+    category = None
+    categories = Category.objects.all()
+    blog = Blog.objects.all()
+
+    if category_slug:
+
+        category = get_object_or_404(Category,slug = category_slug)
+        blog = Blog.objects.filter(category = category)
+
+    context = {
+        'categories':categories,
+        'blog':blog,
+        'category': category,
+
+    }
+
+    return render (request,'blog/list.html',context)
+
 
 @require_http_methods(['GET', 'POST'])
 def blog_detail(request, slug):
