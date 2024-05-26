@@ -1,7 +1,10 @@
 from django.shortcuts import render,get_object_or_404
 from django.views.decorators.http import require_http_methods
 from .models import Blog,Category,Tag,Comment
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponseForbidden,HttpResponseNotAllowed
+import json
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 @require_http_methods(["GET"])
@@ -32,7 +35,7 @@ def blogs_list(request,category_slug= None):
 
     return render (request,'blog/list.html',context)
 
-
+@csrf_exempt
 @require_http_methods(['GET', 'POST'])
 def blog_detail(request, slug):
     blog = get_object_or_404(Blog, slug=slug)
@@ -70,3 +73,6 @@ def blog_detail(request, slug):
         'tags': tags
     }
     return render(request, 'blog/detail.html', context)
+
+
+
