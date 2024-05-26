@@ -76,3 +76,42 @@ def blog_detail(request, slug):
 
 
 
+@login_required
+@require_http_methods(['POST'])
+@csrf_exempt
+def create_blog(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            blog = Blog.objects.create(
+                
+                title=data['title'],
+                slug=data['slug'],
+                description=data['description'],
+                image=data.get('image'),
+                user=request.user,
+                category=Category.objects.get(id=data['category']),
+            )
+            blog.tag.set(Tag.objects.filter(id__in=data['tags']))
+            blog.save()
+            return JsonResponse({'message': 'Blog created successfully!', 'blog': {
+                'id': blog.id,
+                'title': blog.title,
+                'slug': blog.slug,
+                'description': blog.description,
+                'image': blog.image.url if blog.image else None,
+                'published_at': blog.published_at.isoformat(),
+                'updated_at': blog.updated_at.isoformat(),
+                'user': blog.user.username,
+                'category': blog.category.name,
+                'tags': [tag.name for tag in blog.tag.all()]
+            }})
+        except Exception as e:
+
+            return JsonResponse({'error': str(e)}, status=400)
+        
+    return HttpResponseNotAllowed(['POST'])
+
+        
+
+
