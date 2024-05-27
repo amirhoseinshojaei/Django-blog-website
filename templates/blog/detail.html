@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+{{blog.title}}
+{% endblock title %}
+
+{% block body %}
+
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ blog.title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        .blog-title {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        .blog-description {
+            margin-bottom: 20px;
+        }
+        .blog-meta {
+            font-size: 0.9em;
+            color: #555;
+        }
+        .blog-comments {
+            margin-top: 30px;
+        }
+        .comment {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+        }
+        .comment-body {
+            font-size: 1.1em;
+        }
+        .comment-meta {
+            font-size: 0.9em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="blog-post">
+        <h1 class="blog-title">{{ blog.title }}</h1>
+        <div class="blog-description">{{ blog.description }}</div>
+        <div class="blog-meta">
+            <p>نویسنده: {{ blog.user.username }}</p>
+            <p>تاریخ انتشار: {{ blog.published_at }}</p>
+            <p>آخرین بروزرسانی: {{ blog.updated_at }}</p>
+            <p>دسته‌بندی: {{ category.name }}</p>
+            <p>تگ‌ها: 
+                {% for tag in tags %}
+                    {{ tag.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </p>
+        </div>
+        {% if blog.image %}
+            <img src="{{ blog.image.url }}" alt="{{ blog.title }}">
+        {% endif %}
+    </div>
+    <div class="blog-comments">
+        <h2>نظرات</h2>
+        {% for comment in comments %}
+            <div class="comment">
+                <p class="comment-body">{{ comment.body }}</p>
+                <div class="comment-meta">
+                    <p>کاربر: {{ comment.user.username }}</p>
+                    <p>تاریخ: {{ comment.date }}</p>
+                </div>
+            </div>
+        {% empty %}
+            <p>نظری وجود ندارد.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
+
+
+
+{% endblock body %}
+
+    
+
+
+
