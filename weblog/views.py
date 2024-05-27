@@ -156,3 +156,22 @@ def blog_update(request,slug):
             return JsonResponse({'error':str(e)},status = 400)
     
     return HttpResponseNotAllowed(['PUT'])
+
+
+@login_required
+@require_http_methods(['DELETE'])
+@csrf_exempt
+def blog_delete(request,slug):
+
+    blog = get_object_or_404(Blog,slug=slug)
+
+    if request.user != blog.user:
+
+        return HttpResponseForbidden("You are not allowed to delete this blog")
+    
+    if request.method == 'DELETE':
+
+        blog.delete()
+        return JsonResponse({'message':'Blog deleted succesfully'},status = 200)
+    
+    return HttpResponseForbidden(['DELETE'])
