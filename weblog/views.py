@@ -114,4 +114,45 @@ def create_blog(request):
 
         
 
+@login_required
+@require_http_methods(['PUT'])
+@csrf_exempt
+def blog_update(request,slug):
 
+    blog = get_object_or_404(Blog,slug=slug)
+    if request.user != blog.user:
+
+        return HttpResponseForbidden("You are not allowed to edit this blog")
+    
+    if request.method == "PUT":
+
+        try:
+            data = json.loads(request.body)
+            blog.title = data['title']
+            blog.description = data['description']
+            if data.get('image'):
+
+                blog.image = data['image']
+            
+            blog.category = data['category']
+            blog.tag.set(Tag.objects.filter(id__in=data['tags']))
+
+            blog.save()
+            return JsonResponse({'message':'Blog updated succesfully','blog':{
+
+                'id' : blog.id,
+                'title': blog.title,
+                'slug':blog.slug,
+                'description': blog.description,
+                'image': blog.image.url if blog.image else None,
+                'published_at': blog.published_at.isoformat(),
+                'updated_at': blog.updated_at.isoformat(),
+                'user': blog.user.username,
+                'category': blog.category,
+                'tags':[ tag.name for tag in blog.tag.all()]
+            }})
+        except Exception as e:
+
+            return JsonResponse({'error':str(e)},status = 400)
+    
+    return HttpResponseNotAllowed(['PUT'])
