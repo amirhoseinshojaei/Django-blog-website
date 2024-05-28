@@ -178,3 +178,16 @@ JAZZMIN_SETTINGS = {
     # Field name on user model that contains avatar ImageField/URLField/Charfield or a callable that receives the user
     "user_avatar": None,
 }
+
+
+
+# default permission class rest_framework
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+        
+    ]
+
+    
+    
+}
