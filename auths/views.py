@@ -4,7 +4,21 @@ from django.contrib.auth import authenticate,login,logout
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password
+from rest_framework import viewsets
+from .serializers import UserSerializer
+from .permissions import CustomPermission
 # Create your views here.
+
+
+class UserViewSet(viewsets.ModelViewSet):
+
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (CustomPermission)
+
+
+
+
 
 @csrf_exempt
 def signup(request):
